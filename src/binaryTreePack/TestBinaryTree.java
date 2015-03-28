@@ -47,6 +47,29 @@ public class TestBinaryTree {
 		tree2.displayPreOrder();
 		System.out.println("Post order sort\n----------------");
 		tree2.displayPostOrder();
+		
+		BinaryTree<Integer> tree3 = new BinaryTree<>();
+		tree3.add(4);
+		tree3.add(2);
+		tree3.add(6);
+		tree3.add(1);
+		tree3.add(3);
+		tree3.add(5);
+		tree3.add(7);
+		
+		System.out.println("In order sort\n----------------");
+		tree3.displayInOrder();
+		System.out.println("Preorder sort\n----------------");
+		tree3.displayPreOrder();
+		System.out.println("Post order sort\n----------------");
+		tree3.displayPostOrder();
+		
+		System.out.println("Remove time");
+		tree3.remove(4);
+		System.out.println("In order sort\n----------------");
+		tree3.displayInOrder();
+		System.out.println("Preorder sort\n----------------");
+		tree3.displayPreOrder();
 	}
 
 }

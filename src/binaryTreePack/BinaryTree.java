@@ -21,11 +21,71 @@ public class BinaryTree<T extends Comparable<T>> implements BinaryTreeInt<T> {
 	}
 
 	@Override
-	public void remove(T info) {
-		Node<T> pointer = root;
-		if(pointer.getInfo() == info){
+	public boolean remove(T info) {
 		
+		Node<T> delPointer = root;
+		
+		//Find the node that will be deleted, if no node exists with the info return false
+		while(delPointer.getInfo() != info){
+			if(delPointer.getInfo().compareTo(info) > 0){
+				delPointer = delPointer.getLeft();
+			}else if(delPointer.getInfo().compareTo(info) < 0){
+				delPointer = delPointer.getRight();
+			}
+			if(delPointer == null){
+				return false;
+			}
 		}
+		
+		//Heir to the spot should be the next in order so go one node right then all the way left
+		Node<T> heirPointer = delPointer;
+		Node<T> heirParent = delPointer;
+		int count = 0;
+		boolean isLeft = true;
+		
+		if(heirPointer.getRight() != null){
+			heirPointer = heirPointer.getRight();
+			isLeft = false;
+			
+			while(heirPointer.getLeft() != null){
+				
+				if(count == 0){
+					heirParent = heirParent.getRight();
+					isLeft = true;
+					count++;
+				}else{
+					heirParent = heirParent.getLeft();
+				}
+				heirPointer = heirPointer.getLeft();
+			}
+		//If the right side of the tree is empty then the heir belongs to the next lowest number
+		}else if(heirPointer.getLeft() != null){
+			heirPointer = heirPointer.getLeft();
+			isLeft = true;
+			while(heirPointer.getRight() != null){
+				if(count == 0){
+					heirParent = heirParent.getLeft();
+					isLeft = false;
+					count++;
+				}else{
+					heirParent = heirParent.getRight();
+				}
+				heirPointer = heirPointer.getRight();
+			}
+		}else{
+			root = null;
+		}
+		//Pointer is now pointing to the heir, cut and paste that bad boy into his throne
+		delPointer.setInfo(heirPointer.getInfo());
+		
+		if(root != null)
+			if(isLeft){
+				heirParent.setLeft(null);
+			}else{
+				heirParent.setRight(null);
+			}
+		
+		return true;
 	}
 
 	@Override
